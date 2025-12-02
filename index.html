@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário Moderno</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Biblioteca XLSX (inclusão correta) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <h1>Formulário de Cadastro Moderno</h1>
+
+    <form id="formPrincipal">
+      <div class="grupo">
+        <div><label for="nome">Nome</label><input required type="text" id="nome" name="nome"></div>
+        <div><label for="idade">Idade</label><input required type="text" id="idade" name="idade"></div>
+        <div><label for="cpf">CPF/CNPJ</label><input required type="text" id="cpf" name="cpf"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="endereco">Endereço</label><input type="text" id="endereco" name="endereco"></div>
+        <div><label for="bairro">Bairro</label><input type="text" id="bairro" name="bairro"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="cidade">Cidade</label><input type="text" id="cidade" name="cidade"></div>
+        <div><label for="estado">Estado</label><input type="text" id="estado" name="estado"></div>
+        <div><label for="cep">CEP</label><input type="text" id="cep" name="cep"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="telefone">Telefone</label><input type="text" id="telefone" name="telefone"></div>
+        <div><label for="nascimento">Nascimento</label><input type="date" id="nascimento" name="nascimento"></div>
+        <div><label for="sexo">Sexo</label><input type="text" id="sexo" name="sexo"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="empresa">Empresa</label><input type="text" id="empresa" name="empresa"></div>
+        <div><label for="cargo">Cargo</label><input type="text" id="cargo" name="cargo"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="cnpj_empresa">CNPJ Empresa</label><input type="text" id="cnpj_empresa" name="cnpj_empresa"></div>
+        <div><label for="categoria_plano">Categoria do Plano</label><input type="text" id="categoria_plano" name="categoria_plano"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="email">Email</label><input type="email" id="email" name="email" required></div>
+        <div><label for="contrato">Contrato</label><input type="text" id="contrato" name="contrato"></div>
+      </div>
+
+      <div class="grupo">
+        <div><label for="valor">Valor</label><input type="text" id="valor" name="valor"></div>
+        <div><label for="adesao">Adesão</label><input type="date" id="adesao" name="adesao"></div>
+        <div><label for="vencimento">Vencimento</label><input type="date" id="vencimento" name="vencimento"></div>
+      </div>
+    </form>
+
+    <h2>Dependentes</h2>
+    <table id="tabelaDep">
+      <tr>
+        <th>D</th><th>Titular</th><th>Nome</th><th>CPF</th><th>Identidade</th><th>Nascimento</th><th>Sexo</th><th>Valor</th>
+      </tr>
+    </table>
+
+    <div class="actions">
+      <button id="btnAddDep" class="btn-secondary" type="button">Adicionar Dependente</button>
+      <button id="btnGerar" type="button">Gerar Excel</button>
+      <button id="btnLimpar" class="btn-secondary" type="button">Limpar Formulário</button>
+    </div>
+  </div>
+
+   <script src="script.js"></script>
+
+</body>
+</html>
