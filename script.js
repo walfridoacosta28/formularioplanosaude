@@ -32,65 +32,48 @@
       }
     }
 
-    // Função para gerar o Excel e depois limpar os campos
-    function gerarExcel() {
-      const form = document.getElementById('formPrincipal');
-      if (!form.reportValidity()) return; // impede se houver campo inválido
+document.getElementById("btnExcel").addEventListener("click", gerarExcel);
 
-      // Coletar dados do titular
-      const principal = {
-        Nome: document.getElementById('nome').value,
-        Identidade: document.getElementById('identidade').value,
-        CPF_CNPJ: document.getElementById('cpf').value,
-        Endereco: document.getElementById('endereco').value,
-        Bairro: document.getElementById('bairro').value,
-        Cidade: document.getElementById('cidade').value,
-        Estado: document.getElementById('estado').value,
-        CEP: document.getElementById('cep').value,
-        Telefone: document.getElementById('telefone').value,
-        Nascimento: document.getElementById('nascimento').value,
-        Sexo: document.getElementById('sexo').value,
-        Empresa: document.getElementById('empresa').value,
-        Cargo: document.getElementById('cargo').value,
-        CNPJ_Empresa: document.getElementById('cnpj_empresa').value,
-        Categoria_Plano: document.getElementById('categoria_plano').value,
-        Email: document.getElementById('email').value,
-        Contrato: document.getElementById('contrato').value,
-        Valor: document.getElementById('valor').value,
-        Adesao: document.getElementById('adesao').value,
-        Vencimento: document.getElementById('vencimento').value
-      };
+function gerarExcel() {
 
-      // Coletar dependentes
-      const dependentes = [];
-      const linhas = document.querySelectorAll('#tabelaDep tr');
-      for (let i = 1; i < linhas.length; i++) {
-        const inputs = linhas[i].querySelectorAll('input');
+    // --- PEGAR DADOS DO TITULAR ---
+    const titular = {
+        nome: document.getElementById("nomeTitular").value,
+        cpf: document.getElementById("cpfTitular").value,
+        nascimento: document.getElementById("nascimentoTitular").value,
+        telefone: document.getElementById("telefoneTitular").value,
+        email: document.getElementById("emailTitular").value,
+        endereco: document.getElementById("enderecoTitular").value
+    };
+
+    // --- PEGAR DADOS DOS DEPENDENTES ---
+    const dependentes = [];
+    const linhas = document.querySelectorAll(".linha-dependente");
+
+    linhas.forEach(linha => {
         dependentes.push({
-          D: inputs[0] ? inputs[0].value || String(i).padStart(2,'0') : String(i).padStart(2,'0'),
-          Titular: inputs[1] ? inputs[1].value : '',
-          Nome: inputs[2] ? inputs[2].value : '',
-          CPF: inputs[3] ? inputs[3].value : '',
-          Identidade: inputs[4] ? inputs[4].value : '',
-          Nascimento: inputs[5] ? inputs[5].value : '',
-          Sexo: inputs[6] ? inputs[6].value : '',
-          Valor: inputs[7] ? inputs[7].value : ''
+            titular: titular.nome, // VINCULA AUTOMATICAMENTE
+            nome: linha.querySelector(".dep-nome").value,
+            nascimento: linha.querySelector(".dep-nascimento").value,
+            cpf: linha.querySelector(".dep-cpf").value,
+            parentesco: linha.querySelector(".dep-parentesco").value
         });
-      }
+    });
 
-      // Criar workbook e sheets
-      const wb = XLSX.utils.book_new();
-      const ws1 = XLSX.utils.json_to_sheet([principal]);
-      const ws2 = XLSX.utils.json_to_sheet(dependentes.length ? dependentes : []);
+    // --- MONTAR O EXCEL ---
+    const wb = XLSX.utils.book_new();
 
-      XLSX.utils.book_append_sheet(wb, ws1, 'Principal');
-      XLSX.utils.book_append_sheet(wb, ws2, 'Dependentes');
+    // Aba: Titular
+    const wsTitular = XLSX.utils.json_to_sheet([titular]);
+    XLSX.utils.book_append_sheet(wb, wsTitular, "Titular");
 
-      // Salvar arquivo
-      XLSX.writeFile(wb, 'cadastro_plano.xlsx');
+    // Aba: Dependentes
+    const wsDependentes = XLSX.utils.json_to_sheet(dependentes);
+    XLSX.utils.book_append_sheet(wb, wsDependentes, "Dependentes");
 
-      // Após salvar, manter os dados (não limpar automaticamente)
-    }
+    // --- GERAR DOWNLOAD ---
+    XLSX.writeFile(wb, "dados.xlsx");
+}
 
     // Função para limpar formulário e tabela de dependentes
     function limparFormulario() {
@@ -123,4 +106,5 @@
     document.getElementById('btnGerar').addEventListener('click', gerarExcel);
     document.getElementById('btnLimpar').addEventListener('click', function() {
       if (confirm('Tem certeza que deseja limpar o formulário?')) limparFormulario();
+
     });
