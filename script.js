@@ -38,12 +38,12 @@ function gerarExcel() {
 
     // --- PEGAR DADOS DO TITULAR ---
     const titular = {
-        nome: document.getElementById("nomeTitular").value,
-        cpf: document.getElementById("cpfTitular").value,
-        nascimento: document.getElementById("nascimentoTitular").value,
-        telefone: document.getElementById("telefoneTitular").value,
-        email: document.getElementById("emailTitular").value,
-        endereco: document.getElementById("enderecoTitular").value
+        nome: document.getElementById("nomeTitular").value || "",
+        cpf: document.getElementById("cpfTitular").value || "",
+        nascimento: document.getElementById("nascimentoTitular").value || "",
+        telefone: document.getElementById("telefoneTitular").value || "",
+        email: document.getElementById("emailTitular").value || "",
+        endereco: document.getElementById("enderecoTitular").value || ""
     };
 
     // --- PEGAR DADOS DOS DEPENDENTES ---
@@ -52,22 +52,22 @@ function gerarExcel() {
 
     linhas.forEach(linha => {
         dependentes.push({
-            titular: titular.nome, // VINCULA AUTOMATICAMENTE
-            nome: linha.querySelector(".dep-nome").value,
-            nascimento: linha.querySelector(".dep-nascimento").value,
-            cpf: linha.querySelector(".dep-cpf").value,
-            parentesco: linha.querySelector(".dep-parentesco").value
+            titular: titular.nome, // VINCULA AUTOMATICAMENTE O NOME DO TITULAR
+            nome: linha.querySelector(".dep-nome").value || "",
+            nascimento: linha.querySelector(".dep-nascimento").value || "",
+            cpf: linha.querySelector(".dep-cpf").value || "",
+            parentesco: linha.querySelector(".dep-parentesco").value || ""
         });
     });
 
     // --- MONTAR O EXCEL ---
     const wb = XLSX.utils.book_new();
 
-    // Aba: Titular
+    // Aba 1: Titular
     const wsTitular = XLSX.utils.json_to_sheet([titular]);
     XLSX.utils.book_append_sheet(wb, wsTitular, "Titular");
 
-    // Aba: Dependentes
+    // Aba 2: Dependentes
     const wsDependentes = XLSX.utils.json_to_sheet(dependentes);
     XLSX.utils.book_append_sheet(wb, wsDependentes, "Dependentes");
 
@@ -108,3 +108,4 @@ function gerarExcel() {
       if (confirm('Tem certeza que deseja limpar o formulário?')) limparFormulario();
 
     });
+
